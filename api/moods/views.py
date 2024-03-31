@@ -1,10 +1,11 @@
-from django.shortcuts import render
-from rest_framework import permissions, viewsets
+from drf_spectacular.utils import extend_schema
+from rest_framework import viewsets, status
+from rest_framework.response import Response
+
 from .models import MoodLog
-from .serializers import MoodLogSerializer
+from .serializers import MoodLogSerializer, MoodSerializer
 
 
-# Create your views here.
 class MoodLogViewSet(viewsets.ModelViewSet):
     queryset = MoodLog.objects.all()
     serializer_class = MoodLogSerializer
@@ -16,16 +17,31 @@ class MoodLogViewSet(viewsets.ModelViewSet):
         user = self.request.user
         return MoodLog.objects.filter(user=user)
 
+    @extend_schema(
+        responses={201: MoodLogSerializer},
+    )
     def list(self, request):
         """
         Gets all the recorded mood log entries.
         """
         return super().list(request)
 
+    @extend_schema(
+        request=MoodSerializer,
+        responses={201: MoodLogSerializer}
+    )
     def create(self, request, *args, **kwargs):
         """
         Create a new mood log entry.
-
-        Expects a `mood` value between 1 and 10.
         """
-        return super().create(request, *args, **kwargs)
+        mood_serializer = MoodSerializer(data=request.data)
+
+        if mood_serializer.is_valid():
+            mood_data = mood_serializer.validated_data
+            mood_log_serializer = MoodLogSerializer(data=mood_data, context={'request': request})
+
+            if mood_log_serializer.is_valid():
+                mood_log_serializer.save()
+                return Response(mood_log_serializer.data, status=status.HTTP_201_CREATED)
+
+        return Response(mood_serializer.errors, status=status.HTTP_400_BAD_REQUEST)

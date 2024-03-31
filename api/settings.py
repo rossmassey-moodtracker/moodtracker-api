@@ -141,5 +141,11 @@ SPECTACULAR_SETTINGS = {
     'TITLE': 'Weather Mood API',
     'DESCRIPTION': 'REST API for access to recorded Moods',
     'VERSION': '1.0.0',
-    'SERVE_INCLUDE_SCHEMA': False,
+    'SERVE_INCLUDE_SCHEMA': True,
+    'SWAGGER_UI_SETTINGS': {
+        'deepLinking': True,
+        'displayOperationId': True,
+        'defaultModelsExpandDepth': -1,
+        'defaultModelExpandDepth':  3,
+    },
 }
