@@ -9,5 +9,5 @@ class MoodLog(models.Model):
     time = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        ordering = ['time']
+        ordering = ['time']  # ascending order, use `-time` for descending
         app_label = 'moods'

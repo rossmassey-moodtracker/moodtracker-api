@@ -1,3 +1,4 @@
+from django.core.validators import MinValueValidator, MaxValueValidator
 from rest_framework import serializers
 
 from .models import MoodLog
@@ -6,6 +7,10 @@ from .models import MoodLog
 class MoodField(serializers.FloatField):
     def __init__(self, **kwargs):
         kwargs['help_text'] = "Mood between 1 and 10"
+        kwargs['validators'] = [
+            MinValueValidator(1),
+            MaxValueValidator(10)
+        ] + kwargs.get('validators', [])
         kwargs['required'] = True
         super().__init__(**kwargs)
 
