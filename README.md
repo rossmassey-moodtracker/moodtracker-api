@@ -19,11 +19,42 @@ pip install -r requirements.txt
 ./manage.py runserver
 ```
 
+## Routes
+
+### Swagger
+http://127.0.0.1:8000/docs/
+
+### Authentication
+
+`/login` and `/signup` return a `<token>`
+
+It can be added to request header as: 
+
+`Authorization: Token <token>`
+
+#### Signup
+
+http://127.0.0.1:8000/signup/ **(POST)**
+```
+{
+    "username": <username>, 
+    "password": <password>, 
+    "email": <email>
+}
+```
+
+#### Login
+
+http://127.0.0.1:8000/signup/ (**POST**)
+```
+{
+    "username": <username>, 
+    "password": <password>, 
+}
+```
+
 ### MoodLog ###
 http://127.0.0.1:8000/moods/
-
-### Access Swagger at `/docs`
-http://127.0.0.1:8000/docs/
 
 ## Run tests
 ```bash

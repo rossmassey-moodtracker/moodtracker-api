@@ -16,18 +16,31 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework.routers import DefaultRouter
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
+from rest_framework.routers import DefaultRouter
 
-from api.moods import views
+from api.moods import views as mood_views
+from . import views as api_views
 
 router = DefaultRouter()
-router.register(r'moods', views.MoodLogViewSet)
+router.register(r'moods', mood_views.MoodLogViewSet)
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    # auto CRUD for registered models
     path('', include(router.urls)),
+
+    # djnago admin site
+    path('admin/', admin.site.urls),
+
+    # OpenAPI and swagger
     path('schema/', SpectacularAPIView.as_view(), name='schema'),
     path('docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='docs'),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+
+    # local auth for testing
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+
+    # auth for front end
+    path('login', api_views.login),
+    path('signup', api_views.signup),
+    path('test_token', api_views.test_token)
 ]
