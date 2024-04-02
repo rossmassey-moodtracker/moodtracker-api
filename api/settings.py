@@ -31,10 +31,18 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    # project apps
     'api.moods.apps.MoodsConfig',
-    'drf_spectacular',
+    'api.token_auth.apps.AuthConfig',
+
+    # django rest framework
     'rest_framework',
     'rest_framework.authtoken',
+
+    # drf spectacular (for swagger)
+    'drf_spectacular',
+
+    # django
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

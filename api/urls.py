@@ -20,7 +20,7 @@ from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 from rest_framework.routers import DefaultRouter
 
 from api.moods import views as mood_views
-from . import views as api_views
+from api.token_auth import views as api_views
 
 router = DefaultRouter()
 router.register(r'moods', mood_views.MoodLogViewSet)

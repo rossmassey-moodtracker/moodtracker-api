@@ -45,7 +45,7 @@ http://127.0.0.1:8000/signup/ **(POST)**
 
 #### Login
 
-http://127.0.0.1:8000/signup/ (**POST**)
+http://127.0.0.1:8000/login/ (**POST**)
 ```
 {
     "username": <username>, 
