@@ -40,7 +40,7 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 
     # auth for front end
-    path('login', api_views.login),
-    path('signup', api_views.signup),
-    path('test_token', api_views.test_token)
+    path('login', api_views.login, name='login'),
+    path('signup', api_views.signup, name='signup'),
+    path('test_token', api_views.test_token, name='test_token')
 ]
