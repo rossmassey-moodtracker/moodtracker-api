@@ -82,4 +82,4 @@ It can be added to request header as:
 
 | Route | URL  | 
 | --- | --- |
-| [/moods](http://127.0.0.1:8000/moods/) | logged moods for curent user |
+| [/api/moods](http://127.0.0.1:8000/api/moods/) | logged moods for curent user |

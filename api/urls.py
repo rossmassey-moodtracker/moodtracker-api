@@ -19,6 +19,7 @@ from django.urls import path, include
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 from rest_framework.routers import DefaultRouter
 
+from .views import index_view
 from api.moods import views as mood_views
 from api.token_auth import views as api_views
 
@@ -26,8 +27,11 @@ router = DefaultRouter()
 router.register(r'moods', mood_views.MoodLogViewSet)
 
 urlpatterns = [
+    # index
+    path('', index_view, name='index'),
+
     # auto CRUD for registered models
-    path('', include(router.urls)),
+    path('api/', include(router.urls)),
 
     # djnago admin site
     path('admin/', admin.site.urls),
@@ -40,7 +44,7 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 
     # auth for front end
-    path('login', api_views.login, name='login'),
-    path('signup', api_views.signup, name='signup'),
-    path('test_token', api_views.test_token, name='test_token')
+    path('login/', api_views.login, name='login'),
+    path('signup/', api_views.signup, name='signup'),
+    path('test_token/', api_views.test_token, name='test_token')
 ]
