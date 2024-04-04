@@ -53,4 +53,4 @@ def signup(request):
 @api_view(['GET'])
 def test_token(request):
     """ Test token is valid """
-    return Response('pass')
+    return Response('token is valid')

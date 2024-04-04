@@ -7,22 +7,47 @@ the **time** of entry
 
 Requires authentication to view logs (for own user)
 
-## Environment Setup
+## Local Environment Setup
 ```bash
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-## Run development server
+### Run development server
 ```bash
 ./manage.py runserver
 ```
 
-## Routes
+### Run tests
+```bash
+./manage.py test
+```
 
-### Swagger
-http://127.0.0.1:8000/docs/
+## Docker
+
+This API can be ran as a container
+
+1. Build image and tag as `moodtracker-api`
+
+    ```bash
+    docker build -t moodtracker-api .
+    ```
+
+2. Run container and bind to port `8000`
+
+    ```bash
+    docker run -p 8000:8000 moodtracker-api
+    ```
+
+
+## API
+
+### Swagger Docs
+
+[/docs](http://127.0.0.1:8000/docs/)
+
+This shows all the API routes in an interactive browser
 
 ### Authentication
 
@@ -34,7 +59,7 @@ It can be added to request header as:
 
 #### Signup
 
-http://127.0.0.1:8000/signup/ **(POST)**
+**POST** [/signup](http://127.0.0.1:8000/signup/)
 ```
 {
     "username": <username>, 
@@ -45,7 +70,7 @@ http://127.0.0.1:8000/signup/ **(POST)**
 
 #### Login
 
-http://127.0.0.1:8000/login/ (**POST**)
+**POST** [/login](http://127.0.0.1:8000/login/)
 ```
 {
     "username": <username>, 
@@ -53,10 +78,8 @@ http://127.0.0.1:8000/login/ (**POST**)
 }
 ```
 
-### MoodLog ###
-http://127.0.0.1:8000/moods/
+### CRUD Routes
 
-## Run tests
-```bash
-./manage.py test
-```
+| Route | URL  | 
+| --- | --- |
+| [/moods](http://127.0.0.1:8000/moods/) | logged moods for curent user |

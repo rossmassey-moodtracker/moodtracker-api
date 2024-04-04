@@ -5,6 +5,7 @@ from .models import MoodLog
 
 
 class MoodField(serializers.FloatField):
+    """ mood field in request body """
     def __init__(self, **kwargs):
         kwargs['help_text'] = "Mood between 1 and 10"
         kwargs['validators'] = [
@@ -16,6 +17,7 @@ class MoodField(serializers.FloatField):
 
 
 class MoodLogSerializer(serializers.ModelSerializer):
+    """ response body for mood """
     mood = MoodField()
     time = serializers.DateTimeField(help_text="Log time for the entry", read_only=True)
     user = serializers.PrimaryKeyRelatedField(help_text="User that created log entry", read_only=True)
@@ -32,4 +34,5 @@ class MoodLogSerializer(serializers.ModelSerializer):
 
 
 class MoodSerializer(serializers.Serializer):
+    """ request body for mood """
     mood = MoodField()
