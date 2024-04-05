@@ -28,7 +28,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     # this is the DNS of the ELB assigned to the ECS deployment
-    'http://moodtracker-api-load-balanacer-129190309.us-west-1.elb.amazonaws.com/'
+    #'moodtracker-api-load-balanacer-129190309.us-west-1.elb.amazonaws.com/'
+    '*'
 ]
 
 
