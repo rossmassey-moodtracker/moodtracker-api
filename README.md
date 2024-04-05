@@ -7,6 +7,10 @@ the **time** of entry
 
 Requires authentication to view logs (for own user)
 
+## Requirements
+- Python v3.9
+- _or_ Docker
+
 ## Local Environment Setup
 ```bash
 python3 -m venv venv
