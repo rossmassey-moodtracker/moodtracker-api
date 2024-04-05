@@ -44,12 +44,26 @@ This API can be ran as a container
     docker run -p 8000:8000 moodtracker-api
     ```
 
+## Deployment
+
+[![Deploy to Amazon ECS](https://github.com/rossmassey-moodtracker/moodtracker-api/actions/workflows/deploy-to-ecs.yaml/badge.svg)](https://github.com/rossmassey-moodtracker/moodtracker-api/actions/workflows/deploy-to-ecs.yaml)
+
+This API is 
+- built as a container image
+- pushed to AWS ECR (Elastic Container Registry)
+- deployed to ECS (Elastic Container Service)
+- published through an ELB (Elastic Load Balancer)
+
+through a GitHub action
+
+It is accessible at:
+http://moodtracker-api-load-balanacer-129190309.us-west-1.elb.amazonaws.com/
 
 ## API
 
 ### Swagger Docs
 
-[/docs](http://127.0.0.1:8000/docs/)
+[/docs](http://moodtracker-api-load-balanacer-129190309.us-west-1.elb.amazonaws.com/docs/)
 
 This shows all the API routes in an interactive browser
 
@@ -63,7 +77,7 @@ It can be added to request header as:
 
 #### Signup
 
-**POST** [/signup](http://127.0.0.1:8000/signup/)
+**POST** [/signup](http://moodtracker-api-load-balanacer-129190309.us-west-1.elb.amazonaws.com/signup/)
 ```
 {
     "username": <username>, 
@@ -74,7 +88,7 @@ It can be added to request header as:
 
 #### Login
 
-**POST** [/login](http://127.0.0.1:8000/login/)
+**POST** [/login](http://moodtracker-api-load-balanacer-129190309.us-west-1.elb.amazonaws.com/login/)
 ```
 {
     "username": <username>, 
@@ -86,4 +100,4 @@ It can be added to request header as:
 
 | Route | URL  | 
 | --- | --- |
-| [/api/moods](http://127.0.0.1:8000/api/moods/) | logged moods for curent user |
+| [/api/moods](http://moodtracker-api-load-balanacer-129190309.us-west-1.elb.amazonaws.com/api/moods/) | logged moods for curent user |
