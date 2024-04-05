@@ -6,6 +6,9 @@ on:
     branches:
       - main
 
+  # allow manual trigger
+  workflow_dispatch:
+
 env:
   AWS_REGION: us-west-1                         
   ECR_REPOSITORY: moodtracker 
