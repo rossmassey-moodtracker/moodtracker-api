@@ -26,7 +26,10 @@ SECRET_KEY = 'django-insecure-_6n2i=dve_*(4lapzjt$-p8+ae1fp$qz8gpdw#o$6@)*dshih+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    # this is the DNS of the ELB assigned to the ECS deployment
+    'http://moodtracker-api-load-balanacer-129190309.us-west-1.elb.amazonaws.com/'
+]
 
 
 # Application definition
