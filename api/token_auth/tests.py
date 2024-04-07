@@ -53,7 +53,7 @@ class UserViewTests(APITestCase):
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data, 'token is valid')
+        self.assertEqual(response.data, {'message': 'Token is valid'})
 
     def test_token_invalidity(self):
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + 'invalidtoken')
