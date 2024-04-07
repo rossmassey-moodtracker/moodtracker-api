@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
+from drf_spectacular.utils import extend_schema
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view
@@ -7,9 +8,12 @@ from rest_framework.decorators import permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
-from .serializers import UserSerializer
+from .serializers import UserSerializer, UserLoginSerializer
 
 
+@extend_schema(
+    request=UserLoginSerializer,
+)
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def login(request):
@@ -27,6 +31,9 @@ def login(request):
     return Response({"token": token.key, "user": serializer.data})
 
 
+@extend_schema(
+    request=UserSerializer,
+)
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def signup(request):

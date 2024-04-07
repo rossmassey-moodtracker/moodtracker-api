@@ -7,3 +7,10 @@ class UserSerializer(serializers.ModelSerializer):
         """ user info in auth responses """
         model = User
         fields = ['id', 'username', 'password', 'email']
+
+
+class UserLoginSerializer(serializers.ModelSerializer):
+    class Meta(object):
+        """ just username/password """
+        model = User
+        fields = ['username', 'password']
