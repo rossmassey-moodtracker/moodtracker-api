@@ -52,14 +52,20 @@ This API is
 - built as a container image
 - pushed to AWS ECR (Elastic Container Registry)
 - deployed to ECS (Elastic Container Service)
-- published through an ELB (Elastic Load Balancer)
+- accessed through an ELB (Elastic Load Balancer)
 
 through a GitHub action
 
-It is accessible at:
+It is published at:
 http://moodtracker-api-load-balanacer-129190309.us-west-1.elb.amazonaws.com/
 
-## API
+## Routes
+
+### Django Admin
+
+[/admin](http://moodtracker-api-load-balanacer-129190309.us-west-1.elb.amazonaws.com/admin/)
+
+This is the Django admin site
 
 ### Swagger Docs
 
@@ -96,7 +102,7 @@ It can be added to request header as:
 }
 ```
 
-### CRUD Routes
+### CRUD 
 
 | Route | URL  | 
 | --- | --- |

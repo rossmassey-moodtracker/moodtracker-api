@@ -1,30 +1,32 @@
 # Dockerfile to create an image that runs the moodtracker-api
+#
+# Installs python and nginx, plus other dependencies
 
-FROM python:3.9-slim
+FROM ubuntu:latest
 
-# no .pyc files
-ENV PYTHONDONTWRITEBYTECODE 1
-# output to terminal immediately
-ENV PYTHONUNBUFFERED 1
+ENV PYTHONUNBUFFERED=1
+
+# container dependencies
+RUN apt-get update && apt-get install -y \
+    python3-pip \
+    python3-dev \
+    nginx \
+    vim
 
 # work directory inside container
 WORKDIR /app
 
-# dependencies
-COPY requirements.txt /app/
-RUN pip install --upgrade pip && pip install -r requirements.txt
-
-# copy files to container
+# copy files
 COPY . /app/
 
-# collect static files
-RUN python manage.py collectstatic --noinput
+# python dependencies
+RUN pip3 install -r requirements.txt
 
-# make entrypoint script executable
+# entrypoint script
 RUN chmod +x /app/entrypoint.sh
 
-# document port this image will listen on
+# document port container will listen on
 EXPOSE 8000
 
-# start the application
+# initializes and runs server
 CMD ["/app/entrypoint.sh"]
