@@ -53,7 +53,7 @@ jobs:
 
       - name: Insert DB_PASSWORD into ECS Task Definition
         run: |
-          sed -i 's/"DB_PASSWORD", "value": ""/"DB_PASSWORD", "value": "${{ secrets.DB_PASSWORD }}"/' .aws/task.json
+          sed -i 's/"changeme"/"${{ secrets.DB_PASSWORD }}"/' .aws/task.json
         shell: bash
 
       - name: Fill in the new image ID in the Amazon ECS task definition
