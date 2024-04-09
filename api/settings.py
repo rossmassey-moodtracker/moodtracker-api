@@ -10,12 +10,15 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
-from pathlib import Path
 import os
+from pathlib import Path
+from dotenv import load_dotenv
+
+# .env file
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
@@ -28,10 +31,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     # this is the DNS of the ELB assigned to the ECS deployment
-    #'moodtracker-api-load-balanacer-129190309.us-west-1.elb.amazonaws.com/'
+    # 'moodtracker-api-load-balanacer-129190309.us-west-1.elb.amazonaws.com/'
     '*'
 ]
-
 
 # Application definition
 
@@ -74,10 +76,10 @@ ROOT_URLCONF = 'api.urls'
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'BACKEND':  'django.template.backends.django.DjangoTemplates',
+        'DIRS':     [],
         'APP_DIRS': True,
-        'OPTIONS': {
+        'OPTIONS':  {
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
@@ -91,13 +93,13 @@ TEMPLATES = [
 WSGI_APPLICATION = 'api.wsgi.application'
 
 REST_FRAMEWORK = {
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 50,
-    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
-    'DEFAULT_RENDERER_CLASSES': (
+    'DEFAULT_PAGINATION_CLASS':       'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE':                      50,
+    'DEFAULT_SCHEMA_CLASS':           'drf_spectacular.openapi.AutoSchema',
+    'DEFAULT_RENDERER_CLASSES':       (
         'rest_framework.renderers.JSONRenderer',
     ),
-    'DEFAULT_PERMISSION_CLASSES': (
+    'DEFAULT_PERMISSION_CLASSES':     (
         'rest_framework.permissions.IsAuthenticated',
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -107,13 +109,13 @@ REST_FRAMEWORK = {
 }
 
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'Weather Mood API',
-    'DESCRIPTION': 'REST API for access to recorded Moods',
-    'VERSION': '1.0.0',
+    'TITLE':                'Weather Mood API',
+    'DESCRIPTION':          'REST API for access to recorded Moods',
+    'VERSION':              '1.0.0',
     'SERVE_INCLUDE_SCHEMA': True,
-    'SWAGGER_UI_SETTINGS': {
-        'deepLinking': True,
-        'displayOperationId': True,
+    'SWAGGER_UI_SETTINGS':  {
+        'deepLinking':              True,
+        'displayOperationId':       True,
         'defaultModelsExpandDepth': -1,
         'defaultModelExpandDepth':  3,
     },
@@ -122,25 +124,38 @@ SPECTACULAR_SETTINGS = {
 SWAGGER_SETTINGS = {
     'api_key': {
         'type': 'apiKey',
-        'in': 'header',
+        'in':   'header',
         'name': 'Authorization'
     }
 }
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",  # dev ui url
+    "http://moodtracker-react-frontend-gh.s3-website-us-west-1.amazonaws.com",
 ]
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+# default database (uses sqlite3)
+#
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE':   'django.db.backends.postgresql_psycopg2',
+        'NAME':     'postgres',
+        'USER':     'postgres',
+        'PASSWORD': os.environ.get('DB_PASSWORD', 'password_not_found'),
+        'HOST':     'moodtracker-db.ctnn9wuftd6v.us-west-1.rds.amazonaws.com',
+        'PORT':     '5432'
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -160,7 +175,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
@@ -171,7 +185,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/

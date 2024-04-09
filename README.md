@@ -11,6 +11,14 @@ Requires authentication to view logs (for own user)
 - Python v3.9
 - _or_ Docker
 
+#### Database Acess
+
+`DB_PASSWORD` environment variable must be set to access the AWS RDS instance
+
+- For ECS, this is done automatically as part of the GitHub action
+
+- For local development, it can be set in an `.env` file in root of repository
+
 ## Local Environment Setup
 ```bash
 python3 -m venv venv
