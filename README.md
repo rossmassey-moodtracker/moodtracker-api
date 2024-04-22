@@ -21,6 +21,12 @@ Requires authentication to view logs (for own user)
 
 Alternatively, the default sqlite3 provider can be uncommented out in `api/settings.py` and used instead
 
+#### API Access
+
+`LOCATION_API_KEY` and `WEATHER_API_KEY` environment variable must also be set
+
+Currently the OpenWeatherMap One Call API is being used
+
 ## Local Environment Setup
 ```bash
 python3 -m venv venv
@@ -111,9 +117,3 @@ It can be added to request header as:
     "password": <password>, 
 }
 ```
-
-### CRUD 
-
-| Route | URL  | 
-| --- | --- |
-| [/api/moods](http://moodtracker-api-load-balanacer-129190309.us-west-1.elb.amazonaws.com/api/moods/) | logged moods for curent user |

@@ -17,6 +17,20 @@ from dotenv import load_dotenv
 # .env file
 load_dotenv()
 
+###############################################################################
+# Moodtracker API settings -------------------------------------------------- #
+###############################################################################
+
+WEATHER_API_URL = "https://api.openweathermap.org/data/3.0/onecall"
+WEATHER_API_KEY = os.getenv('WEATHER_API_KEY', '')
+
+LOCATION_API_URL = "http://api.openweathermap.org/geo/1.0/direct"
+LOCATION_API_KEY = os.getenv('LOCATION_API_KEY', '')
+
+###############################################################################
+# Django settings ----------------------------------------------------------- #
+###############################################################################
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -24,19 +38,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+# TODO move to github secrets
 SECRET_KEY = 'django-insecure-_6n2i=dve_*(4lapzjt$-p8+ae1fp$qz8gpdw#o$6@)*dshih+'
 
 # SECURITY WARNING: don't run with debug turned on in production!
+# TODO turn off
 DEBUG = True
 
-ALLOWED_HOSTS = [
-    # this is the DNS of the ELB assigned to the ECS deployment
-    # 'moodtracker-api-load-balanacer-129190309.us-west-1.elb.amazonaws.com/'
-    '*'
-]
+ALLOWED_HOSTS = ['*']
 
 # Application definition
-
 INSTALLED_APPS = [
     # project apps
     'api.moods.apps.MoodsConfig',
@@ -91,43 +102,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'api.wsgi.application'
-
-REST_FRAMEWORK = {
-    'DEFAULT_PAGINATION_CLASS':       'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE':                      50,
-    'DEFAULT_SCHEMA_CLASS':           'drf_spectacular.openapi.AutoSchema',
-    'DEFAULT_RENDERER_CLASSES':       (
-        'rest_framework.renderers.JSONRenderer',
-    ),
-    'DEFAULT_PERMISSION_CLASSES':     (
-        'rest_framework.permissions.IsAuthenticated',
-    ),
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.TokenAuthentication',
-        'rest_framework.authentication.SessionAuthentication'
-    )
-}
-
-SPECTACULAR_SETTINGS = {
-    'TITLE':                'Weather Mood API',
-    'DESCRIPTION':          'REST API for access to recorded Moods',
-    'VERSION':              '1.0.0',
-    'SERVE_INCLUDE_SCHEMA': True,
-    'SWAGGER_UI_SETTINGS':  {
-        'deepLinking':              True,
-        'displayOperationId':       True,
-        'defaultModelsExpandDepth': -1,
-        'defaultModelExpandDepth':  3,
-    },
-}
-
-SWAGGER_SETTINGS = {
-    'api_key': {
-        'type': 'apiKey',
-        'in':   'header',
-        'name': 'Authorization'
-    }
-}
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",  # dev ui url
@@ -202,3 +176,48 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # session settings
 CSRF_COOKIE_SECURE = False
 SESSION_COOKIE_SECURE = False
+
+###############################################################################
+# Django REST framework settings  ------------------------------------------- #
+###############################################################################
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS':       'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE':                      50,
+    'DEFAULT_SCHEMA_CLASS':           'drf_spectacular.openapi.AutoSchema',
+    'DEFAULT_RENDERER_CLASSES':       (
+        'rest_framework.renderers.JSONRenderer',
+    ),
+    'DEFAULT_PERMISSION_CLASSES':     (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication'
+    )
+}
+
+###############################################################################
+# DRF Spectacular settings ------ ------------------------------------------- #
+###############################################################################
+
+SPECTACULAR_SETTINGS = {
+    'TITLE':                'Moodtracker API',
+    'DESCRIPTION':          'REST API for access to recorded Moods',
+    'VERSION':              '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': True,
+    'SWAGGER_UI_SETTINGS':  {
+        'deepLinking':              True,
+        'displayOperationId':       True,
+        'defaultModelsExpandDepth': -1,
+        'defaultModelExpandDepth':  3,
+    },
+}
+
+SWAGGER_SETTINGS = {
+    'api_key': {
+        'type': 'apiKey',
+        'in':   'header',
+        'name': 'Authorization'
+    }
+}

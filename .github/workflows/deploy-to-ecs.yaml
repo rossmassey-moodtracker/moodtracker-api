@@ -51,9 +51,11 @@ jobs:
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
-      - name: Insert DB_PASSWORD into ECS Task Definition
+      - name: Insert environment secrets into ECS Task Definition
         run: |
-          sed -i 's/"changeme"/"${{ secrets.DB_PASSWORD }}"/' .aws/task.json
+          sed -i 's/"DB_PASSWORD_CHANGE"/"${{ secrets.DB_PASSWORD }}"/' .aws/task.json
+          sed -i 's/"WEATHER_API_KEY_CHANGE"/"${{ secrets.WEATHER_API_KEY }}"/' .aws/task.json
+          sed -i 's/"LOCATION_API_KEY_CHANGE"/"${{ secrets.LOCATION_API_KEY }}"/' .aws/task.json
         shell: bash
 
       - name: Fill in the new image ID in the Amazon ECS task definition

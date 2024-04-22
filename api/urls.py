@@ -22,6 +22,8 @@ from rest_framework.routers import DefaultRouter
 from .views import index_view
 from api.moods import views as mood_views
 from api.token_auth import views as api_views
+from api.external_apis.weather import WeatherView
+from api.external_apis.location import LocationView
 
 router = DefaultRouter()
 router.register(r'moods', mood_views.MoodLogViewSet)
@@ -33,7 +35,11 @@ urlpatterns = [
     # auto CRUD for registered models
     path('api/', include(router.urls)),
 
-    # djnago admin site
+    # external apis
+    path('external/weather/', WeatherView.as_view(), name='weather'),
+    path('external/location/', LocationView.as_view(), name='location'),
+
+    # django admin site
     path('admin/', admin.site.urls),
 
     # OpenAPI and swagger
