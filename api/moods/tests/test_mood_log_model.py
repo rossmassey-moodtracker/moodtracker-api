@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.test import TestCase
@@ -13,9 +15,12 @@ class MoodLogModelTests(TestCase):
         cls.user = User.objects.create_user(username='testuser', password='testpass')
 
         # seed data
-        MoodLog.objects.create(user=cls.user, mood=1)
-        MoodLog.objects.create(user=cls.user, mood=2)
-        MoodLog.objects.create(user=cls.user, mood=3)
+        MoodLog.objects.create(user=cls.user, mood=1, comment='Feeling sad',
+                               latitude=Decimal('34.0522'), longitude=-Decimal('118.2437'))
+        MoodLog.objects.create(user=cls.user, mood=2, comment='Better',
+                               latitude=Decimal('40.7128'), longitude=-Decimal('74.0060'))
+        MoodLog.objects.create(user=cls.user, mood=3, comment='Good',
+                               latitude=Decimal('37.7749'), longitude=-Decimal('122.4194'))
 
     def test_mood_log_creation(self):
         mood_entries = MoodLog.objects.all()
@@ -41,3 +46,9 @@ class MoodLogModelTests(TestCase):
 
         with self.assertRaises(ValidationError):
             MoodLog.objects.create(user=self.user, mood=-1).full_clean()
+
+    def test_mood_log_fields(self):
+        mood_entry = MoodLog.objects.get(mood=1)
+        self.assertEqual(mood_entry.comment, 'Feeling sad')
+        self.assertAlmostEqual(mood_entry.latitude, Decimal('34.0522'))
+        self.assertAlmostEqual(mood_entry.longitude, Decimal('-118.2437'))

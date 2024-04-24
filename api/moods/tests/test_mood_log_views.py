@@ -14,12 +14,19 @@ class MoodLogViewTests(APITestCase):
         cls.first_user = User.objects.create_user(username='user1', password='pass1')
         cls.second_user = User.objects.create_user(username='user2', password='pass2')
 
-        MoodLog.objects.create(user=cls.first_user, mood=1)
-        MoodLog.objects.create(user=cls.first_user, mood=2)
-        MoodLog.objects.create(user=cls.first_user, mood=3)
+        MoodLog.objects.create(user=cls.first_user,
+                               mood=1, comment='Feeling down',
+                               latitude=34.0522, longitude=-118.2437)
+        MoodLog.objects.create(user=cls.first_user,
+                               mood=2, comment='Improving',
+                               latitude=34.0522, longitude=-118.2437)
+        MoodLog.objects.create(user=cls.first_user,
+                               mood=3, comment='Feeling great',
+                               latitude=34.0522, longitude=-118.2437)
 
-        MoodLog.objects.create(user=cls.second_user, mood=1)
-
+        MoodLog.objects.create(user=cls.second_user,
+                               mood=1, comment='Neutral',
+                               latitude=40.7128, longitude=-74.0060)
     def setUp(self):
         self.client.login(username='user1', password='pass1')
 
@@ -33,11 +40,13 @@ class MoodLogViewTests(APITestCase):
 
     def test_create_mood_log(self):
         url = reverse('moodlog-list')
-        data = {'mood': 4}
+        data = {'mood': 4, 'comment': 'Really good', 'latitude': 37.7749, 'longitude': -122.4194}
         response = self.client.post(url, data)
-
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(response.data['mood'], 4)
+        self.assertEqual(response.data['comment'], 'Really good')
+        self.assertAlmostEqual(float(response.data['latitude']), 37.7749)
+        self.assertAlmostEqual(float(response.data['longitude']), -122.4194)
 
     def test_create_mood_log_invalid_data(self):
         url = reverse('moodlog-list')

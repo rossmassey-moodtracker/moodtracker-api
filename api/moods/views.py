@@ -27,14 +27,14 @@ class MoodLogViewSet(viewsets.ModelViewSet):
         return super().list(request)
 
     @extend_schema(
-        request=MoodSerializer,
+        request=MoodLogSerializer,
         responses={201: MoodLogSerializer}
     )
     def create(self, request, *args, **kwargs):
         """
         Create a new mood log entry.
         """
-        mood_serializer = MoodSerializer(data=request.data)
+        mood_serializer = MoodLogSerializer(data=request.data)
 
         if mood_serializer.is_valid():
             mood_data = mood_serializer.validated_data
